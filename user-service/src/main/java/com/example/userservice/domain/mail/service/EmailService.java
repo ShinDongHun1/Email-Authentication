@@ -5,7 +5,7 @@ import com.example.userservice.domain.mail.Email;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 
-public interface MailService {
+public interface EmailService {
 
     void sendMail(Email email) throws MessagingException, UnsupportedEncodingException;
 

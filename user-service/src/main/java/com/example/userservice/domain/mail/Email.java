@@ -17,6 +17,7 @@ public class Email {
     @Column(name = "email_id")
     private Long id;
 
+    @Column(nullable = false)
     private String email;
 
     private String authKey;

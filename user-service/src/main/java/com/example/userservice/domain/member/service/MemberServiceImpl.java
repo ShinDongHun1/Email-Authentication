@@ -1,7 +1,8 @@
 package com.example.userservice.domain.member.service;
 
-import com.example.userservice.domain.mail.service.MailService;
-import com.example.userservice.domain.mail.service.MailServiceImpl;
+import com.example.userservice.domain.mail.Email;
+import com.example.userservice.domain.mail.repository.EmailRepository;
+import com.example.userservice.domain.mail.service.EmailService;
 import com.example.userservice.domain.member.dto.request.*;
 import com.example.userservice.domain.member.dto.response.MemberDetail;
 import com.example.userservice.domain.member.dto.response.MemberInfoList;
@@ -29,10 +30,12 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final EmailRepository emailRepository;
+
     private final PasswordEncoder passwordEncoder;
     private final FileService fileService;
     private final SecurityService securityService;
-    private final MailService mailService;
+    private final EmailService mailService;
 
 
     @Override
@@ -41,6 +44,7 @@ public class MemberServiceImpl implements MemberService {
         Member member = requestSignUp.toEntity();
 
         checkUsernameDuplicated(member.getUsername());
+        checkEmailDuplicated(member.getEmail());
 
         member.encodePassword(passwordEncoder);
 
@@ -52,9 +56,33 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+
+
+
+    private void checkEmailDuplicated(Email email) {
+        if(emailRepository.findByEmail(email.getEmail()).isPresent()) throw new IllegalStateException("이메일이 중복됩니다.");
+    }
+
+
+
+    @Override
+    public void authenticateByEmail(Long emailId, String key) {
+        Member member = memberRepository.findWithEmailByEmailId(emailId).orElseThrow(() -> new IllegalStateException("잘못된 인증 접근입니다"));
+
+        if(!member.getEmail().matchKey(key)) throw new IllegalStateException("잘못된 인증 접근입니다");
+
+        member.authenticated();
+    }
+
+
+
+
     private void checkUsernameDuplicated(String username) {
         if(memberRepository.findByUsername(username).isPresent()) throw new IllegalStateException("아이디가 중복됩니다.");
     }
+
+
+
 
     private void updateProfileImage(Optional<MultipartFile> profileImage, Member member) {
 

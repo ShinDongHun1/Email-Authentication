@@ -14,6 +14,9 @@ import java.io.UnsupportedEncodingException;
 public interface MemberService {
 
     void signUp(RequestSignUp requestSignUp) throws MessagingException, UnsupportedEncodingException;
+    void authenticateByEmail(Long emailId,String key);
+
+
 
     void update(RequestUpdate requestUpdate);
     void updatePassword(RequestUpdatePassword requestUpdatePassword);

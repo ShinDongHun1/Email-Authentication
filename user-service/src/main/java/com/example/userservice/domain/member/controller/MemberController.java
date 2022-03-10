@@ -34,13 +34,29 @@ public class MemberController {
     private final MemberService memberService;
 
 
-
+    /**
+     * 회원 가입
+     */
     @Operation(summary = "Create user", description = "회원가입", tags = { "User" })
     @ApiResponses(value = {@ApiResponse(description = "successful operation", responseCode = "201")})
     @PostMapping(value= "/users" ,consumes = { "application/x-www-form-urlencoded" })
     public ResponseEntity<Void> signUp(@Valid @ModelAttribute RequestSignUp requestSignUp) throws MessagingException, UnsupportedEncodingException {
         memberService.signUp(requestSignUp);
         return ResponseEntity.status(CREATED).build();
+    }
+
+
+
+    /**
+     * 회원가입 요청 시 메일 발송 -> 메일의 버튼 누르면 여기로 이동 -> 인증시도
+     */
+    @GetMapping(value= "/users/authenticate" )
+    public ResponseEntity<String> authenticateByEmail(@RequestParam(name = "emailId")Long emailId,
+                                                    @RequestParam(name = "key")String key){
+
+        memberService.authenticateByEmail(emailId,key);
+
+        return ResponseEntity.ok("이메일 인증에 성공하셨습니다");
     }
 
 
@@ -59,6 +75,8 @@ public class MemberController {
 
 
 
+
+
     @Operation(summary = "Update user password", description = "비밀번호 수정", tags = { "User" })
     @ApiResponses(value = {@ApiResponse(description = "successful operation", responseCode = "200")})
     @PutMapping(value= "/users/password" ,consumes = { "application/json" })
@@ -66,6 +84,8 @@ public class MemberController {
         memberService.updatePassword(requestUpdatePassword);
         return ResponseEntity.status(OK).build();
     }
+
+
 
 
 
@@ -81,6 +101,9 @@ public class MemberController {
     }
 
 
+
+
+
     @Operation(summary = "Get user detail", description = "회원정보 검색", tags = { "User" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MemberDetail.class)) }),
@@ -89,6 +112,10 @@ public class MemberController {
     public ResponseEntity<MemberDetail> getInfo( @RequestBody String username){
         return ResponseEntity.ok(memberService.getMemberInfo(username));
     }
+
+
+
+
 
 
 

@@ -1,7 +1,6 @@
 package com.example.userservice.domain.mail.service;
 
 import com.example.userservice.domain.mail.Email;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -14,18 +13,21 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 
 @Service
-public class MailServiceImpl implements MailService{
+public class EmailServiceImpl implements EmailService {
 
 
     private final JavaMailSender mailSender;
-    private MimeMessage mimeMailMessage;
-    private MimeMessageHelper messageHelper;
+    private final MimeMessage mimeMailMessage;
+    private final MimeMessageHelper messageHelper;
 
     @Value("${spring.mail.username}")
     private String mailSenderEmail;
 
+    @Value("${server.url}")
+    private String SERVER_URL;
 
-    public MailServiceImpl(JavaMailSender mailSender) throws MessagingException {
+
+    public EmailServiceImpl(JavaMailSender mailSender) throws MessagingException {
         this.mailSender = mailSender;
         mimeMailMessage = this.mailSender.createMimeMessage();
         messageHelper = new MimeMessageHelper(mimeMailMessage, true, "UTF-8");
@@ -71,14 +73,19 @@ public class MailServiceImpl implements MailService{
         send();
     }
 
+
+
+
+
     private String makeMailMessage(Email email) {
         StringBuilder sb = new StringBuilder();
         sb.append("<h1>메일인증</h1><br/>아래 [이메일 인증 확인]을 눌러주세요.")
-                .append("<a href='http://localhost:8080/member/registerEmail?emailId=")
-                .append(email.getId())
-                .append("&key=")
-                .append(email.getAuthKey())
-                        .append("' target='_blenk'>이메일 인증 확인</a>");
+
+                .append("<a href='").append(SERVER_URL)
+                .append("?emailId=").append(email.getId())
+                .append("&key=").append(email.getAuthKey())
+                .append("' target='_blenk'>이메일 인증 확인</a>");
+
         return sb.toString();
     }
 }
