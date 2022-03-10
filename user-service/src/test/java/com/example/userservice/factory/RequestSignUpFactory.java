@@ -10,21 +10,24 @@ import java.util.Optional;
  */
 public class RequestSignUpFactory {
     public static RequestSignUp createRequestSignUp(){
-        return new RequestSignUp("shinD", "password1234@", "신동훈", Optional.empty());
+        return new RequestSignUp("shinD", "password1234@", "신동훈", "sample@email", Optional.empty());
     }
-    public static RequestSignUp createRequestSignUp(String username, String password, String name, MultipartFile profileImage){
-        return new RequestSignUp(username, password, name, Optional.of(profileImage));
+    public static RequestSignUp createRequestSignUp(String username, String password, String name,String email, MultipartFile profileImage){
+        return new RequestSignUp(username, password, name, email,Optional.of(profileImage));
     }
     public static RequestSignUp createRequestSignUpWithUsername(String username){
-        return new RequestSignUp(username, "password1234@", "신동훈", Optional.empty());
+        return new RequestSignUp(username, "password1234@", "신동훈","sample@email", Optional.empty());
     }
     public static RequestSignUp createRequestSignUpWithPassword(String password){
-        return new RequestSignUp("shinD", password, "신동훈", Optional.empty());
+        return new RequestSignUp("shinD", password, "신동훈", "sample@email",Optional.empty());
     }
     public static RequestSignUp createRequestSignUpWithName(String name){
-        return new RequestSignUp("shinD", "password1234@", name, Optional.empty());
+        return new RequestSignUp("shinD", "password1234@", name, "sample@email",Optional.empty());
     }
     public static RequestSignUp createRequestSignUpWithImage(MultipartFile profileImage){
-        return new RequestSignUp("shinD", "password1234@", "신동훈", Optional.of(profileImage));
+        return new RequestSignUp("shinD", "password1234@", "신동훈", "sample@email",Optional.of(profileImage));
+    }
+    public static RequestSignUp createRequestSignUpWithImage(String email){
+        return new RequestSignUp("shinD", "password1234@", "신동훈", email,Optional.empty());
     }
 }
