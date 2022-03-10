@@ -19,7 +19,7 @@ public class TestController {
 
     @GetMapping("/test")
     public void d(){
-        memberService.update(new RequestUpdate(Optional.of("바보"), Optional.empty()));
+        memberService.update(new RequestUpdate("바보",null));
     }
 
 

@@ -99,9 +99,9 @@ public class MemberServiceImpl implements MemberService {
     public void update(RequestUpdate requestUpdate) {
         Member member = authenticatedMember();//이렇게 해도 관리 당연히 된다.
 
-        requestUpdate.name().ifPresent(member::changeName);
+        requestUpdate.getName().ifPresent(member::changeName);
 
-        updateProfileImage(requestUpdate.profileImage(), member);
+        updateProfileImage(requestUpdate.getProfileImage(), member);
     }
 
 

@@ -11,14 +11,14 @@ import java.util.Optional;
  */
 public class RequestUpdateFactory {
     public static RequestUpdate createRequestUpdate(){
-        return new RequestUpdate(Optional.of("신동훈이름변경"), Optional.empty());
+        return new RequestUpdate("신동훈이름변경",null);
     }
 
     public static RequestUpdate createRequestUpdateWithName(String name){
-        return new RequestUpdate(Optional.of(name), Optional.empty());
+        return new RequestUpdate(name,null);
     }
 
     public static RequestUpdate createRequestUpdateWithImage(MultipartFile profileImage){
-        return new RequestUpdate(Optional.of("신동훈이름변경"), Optional.of(profileImage));
+        return new RequestUpdate("신동훈이름변경", profileImage);
     }
 }
