@@ -1,0 +1,41 @@
+spring:
+
+  profiles:
+    active: mail
+
+
+
+
+
+
+
+
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:tcp://localhost/~/cybercampus
+    username: sa
+    password: 1
+
+  jpa:
+    show-sql: true
+
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        default_batch_fetch_size: 100
+
+    hibernate:
+      ddl-auto: create
+
+    open-in-view: false
+
+
+logging:
+  level:
+    org:
+      hiberante:
+        SQL: debug
+
+
